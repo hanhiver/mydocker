@@ -50,6 +50,7 @@ docker run -idt \
     --name $1 \
     --env DEV=true \
     --device /dev/nvidia0:/dev/nvidia0:mrw \
+    --device /dev/nvidia1:/dev/nvidia1:mrw \
     --device /dev/nvidiactl:/dev/nvidiactl:mrw \
     --device /dev/nvidia-uvm:/dev/nvidia-uvm:mrw \
     --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
