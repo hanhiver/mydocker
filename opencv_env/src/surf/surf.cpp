@@ -8,63 +8,64 @@ using namespace std;
 
 int main()
 {
-ÿÿÿ Mat img1 = imread("surf_pic1.jpg",1);
-ÿÿÿ Mat img2 = imread("surf_pic2.jpg",1);
-ÿÿÿ if ((img1.data == NULL)||(img2.data ==NULL))
-ÿÿÿ {
-ÿÿÿÿÿÿÿ cout << "No exist" << endl;
-ÿÿÿÿÿÿÿ return -1;
-ÿÿÿ }
-ÿÿÿ Ptr<Feature2D> surf = xfeatures2d::SURF::create(1000);
+Â Â Â  Mat img1 = imread("surf_pic1.jpg",1);
+Â Â Â  Mat img2 = imread("surf_pic2.jpg",1);
+Â Â Â  if ((img1.data == NULL)||(img2.data ==NULL))
+Â Â Â  {
+Â Â Â Â Â Â Â  cout << "No exist" << endl;
+Â Â Â Â Â Â Â  return -1;
+Â Â Â  }
+Â Â Â  Ptr<Feature2D> surf = xfeatures2d::SURF::create(1000);
 
-ÿÿÿ vector<KeyPoint> keypoints_1, keypoints_2;
-ÿÿÿ Mat descriptors_1, descriptors_2;
+Â Â Â  vector<KeyPoint> keypoints_1, keypoints_2;
+Â Â Â  Mat descriptors_1, descriptors_2;
 
-ÿÿÿ surf->detectAndCompute(img1, Mat(), keypoints_1, descriptors_1 );
-ÿÿÿ surf->detectAndCompute(img2, Mat(), keypoints_2, descriptors_2 );
-ÿÿÿ drawKeypoints(img1, keypoints_1, img1);
-ÿÿÿ drawKeypoints(img2, keypoints_2, img2);
+Â Â Â  surf->detectAndCompute(img1, Mat(), keypoints_1, descriptors_1 );
+Â Â Â  surf->detectAndCompute(img2, Mat(), keypoints_2, descriptors_2 );
+Â Â Â  drawKeypoints(img1, keypoints_1, img1);
+Â Â Â  drawKeypoints(img2, keypoints_2, img2);
 
-ÿÿÿ namedWindow("img1",0);
-ÿÿÿ resizeWindow("img1",500,500);
-ÿÿÿ imshow("img1", img1);
+Â Â Â  namedWindow("img1",0);
+Â Â Â  resizeWindow("img1",500,500);
+Â Â Â  imshow("img1", img1);
 
-ÿÿÿ namedWindow("img2",0);
-ÿÿÿ resizeWindow("img2",500,500);
-ÿÿÿ imshow("img2", img2);
+Â Â Â  namedWindow("img2",0);
+Â Â Â  resizeWindow("img2",500,500);
+Â Â Â  imshow("img2", img2);
 
-ÿÿÿ FlannBasedMatcher matcher;
-ÿÿÿ std::vector< DMatch > matches;
-ÿÿÿ matcher.match( descriptors_1, descriptors_2, matches );
-ÿÿÿ double max_dist = 0; double min_dist = 100;
+Â Â Â  FlannBasedMatcher matcher;
+Â Â Â  std::vector< DMatch > matches;
+Â Â Â  matcher.match( descriptors_1, descriptors_2, matches );
+Â Â Â  double max_dist = 0; double min_dist = 100;
 
-ÿÿÿ for( int i = 0; i < descriptors_1.rows; i++ )
-ÿÿÿ { double dist = matches[i].distance;
-ÿÿÿÿÿ if( dist < min_dist ) min_dist = dist;
-ÿÿÿÿÿ if( dist > max_dist ) max_dist = dist;
-ÿÿÿ }
-ÿÿÿ printf("-- Max dist : %f \n", max_dist );
-ÿÿÿ printf("-- Min dist : %f \n", min_dist );
+Â Â Â  for( int i = 0; i < descriptors_1.rows; i++ )
+Â Â Â  { double dist = matches[i].distance;
+Â Â Â Â Â  if( dist < min_dist ) min_dist = dist;
+Â Â Â Â Â  if( dist > max_dist ) max_dist = dist;
+Â Â Â  }
+Â Â Â  printf("-- Max dist : %f \n", max_dist );
+Â Â Â  printf("-- Min dist : %f \n", min_dist );
 
-ÿÿÿ std::vector< DMatch > good_matches;
-ÿÿÿ for( int i = 0; i < descriptors_1.rows; i++ )
-ÿÿÿ { if( matches[i].distance <= max(2*min_dist, 0.02) )
-ÿÿÿÿÿ { good_matches.push_back( matches[i]); }
-ÿÿÿ }
+Â Â Â  std::vector< DMatch > good_matches;
+Â Â Â  for( int i = 0; i < descriptors_1.rows; i++ )
+Â Â Â  { if( matches[i].distance <= max(2*min_dist, 0.02) )
+Â Â Â Â Â  { good_matches.push_back( matches[i]); }
+Â Â Â  }
 
-ÿÿÿ Mat img_matches;
-ÿÿÿ drawMatches( img1, keypoints_1, img2, keypoints_2,
-ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
-ÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿÿ vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
+Â Â Â  Mat img_matches;
+Â Â Â  drawMatches( img1, keypoints_1, img2, keypoints_2,
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  good_matches, img_matches, Scalar::all(-1), Scalar::all(-1),
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â  vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS );
 
-ÿÿÿ namedWindow("Good Matches",0);
-ÿÿÿ resizeWindow("Good Matches",800,800);
-ÿÿÿ imshow( "Good Matches", img_matches );
+Â Â Â  namedWindow("Good Matches",0);
+Â Â Â  resizeWindow("Good Matches",800,800);
+Â Â Â  imshow( "Good Matches", img_matches );
 
-ÿÿÿ for( int i = 0; i < (int)good_matches.size(); i++ )
-ÿÿÿ { printf( "-- Good Match [%d] Keypoint 1: %dÿ -- Keypoint 2: %dÿ \n",
-ÿÿÿÿÿÿÿÿÿÿÿÿÿ i, good_matches[i].queryIdx, good_matches[i].trainIdx ); }
+Â Â Â  for( int i = 0; i < (int)good_matches.size(); i++ )
+Â Â Â  { printf( "-- Good Match [%d] Keypoint 1: %dÂ  -- Keypoint 2: %dÂ  \n",
+Â Â Â Â Â Â Â Â Â Â Â Â Â  i, good_matches[i].queryIdx, good_matches[i].trainIdx ); }
 
-ÿÿÿ waitKey(0);
-ÿÿÿ return 0;
+Â Â Â  waitKey(0);
+Â Â Â  return 0;
 } 
+
