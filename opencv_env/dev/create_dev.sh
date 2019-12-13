@@ -7,7 +7,7 @@ set -e
 
 ROOT_DIR=$(cd `dirname $0`/..; pwd)
 DEV_DIR=$ROOT_DIR/dev
-DNN_ROOT=/opt/ws_build
+SRC_ROOT=/opt/ws_build
 
 if [ ! $1 ]
 then
@@ -46,7 +46,7 @@ fi
 # TODO: take care of GPU resource and volume injection.
 docker run -idt \
     --net=host \
-    -v $ROOT_DIR:$DNN_ROOT:rw,z \
+    -v $ROOT_DIR:$SRC_ROOT:rw,z \
     --name $1 \
     --env DEV=true \
     --device /dev/nvidia0:/dev/nvidia0:mrw \
