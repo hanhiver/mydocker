@@ -67,4 +67,4 @@ int main()
 
 ÿÿÿ waitKey(0);
 ÿÿÿ return 0;
-}
+} 
