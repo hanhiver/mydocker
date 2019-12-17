@@ -47,8 +47,11 @@ fi
 docker run -idt \
     --net=host \
     -v $ROOT_DIR:$SRC_ROOT:rw,z \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v /tmp/.X11-unix:/tmp/.X11-unix \
     --name $1 \
     --env DEV=true \
+    --env DISPLAY=:0.0 \
     --device /dev/nvidia0:/dev/nvidia0:mrw \
     --device /dev/nvidiactl:/dev/nvidiactl:mrw \
     --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
