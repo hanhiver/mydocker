@@ -2,12 +2,13 @@
 #include <fstream> 
 #include <regex> 
 
-std::string get_container_id()
+std::string get_container_id(std::string filename)
 {
     std::string container_id {""};  
 
     std::ifstream cgroup_file; 
-    std::string cgroup_file_name = "/proc/1/cgroup";
+    //std::string cgroup_file_name = "/proc/1/cgroup";
+    std::string cgroup_file_name = filename;
 
     cgroup_file.open(cgroup_file_name); 
     if (!cgroup_file.is_open())
@@ -26,18 +27,21 @@ std::string get_container_id()
         if (std::regex_search(line, match, cgroup_line1_reg))
         {
             std::string suffix(match.suffix().str()); 
-            //std::cout << suffix << std::endl; 
+            std::cout << suffix << std::endl; 
             
             auto docker_pos = suffix.find("docker");
-            if ( suffix.length() > 70 && \
+            std::cout << "suffix length: " << suffix.length() 
+                      << " docker_pos: " << docker_pos << std::endl; 
+
+            if ( suffix.length() > docker_pos+70 && \
                 docker_pos <= suffix.length())
             {
-                container_id = suffix.substr(docker_pos+7, docker_pos+70); 
-                /*
+                container_id = suffix.substr(docker_pos+7, 64);
+                
                 std::cout << "In a container. " << std::endl; 
                 std::cout << docker_pos << std::endl; 
                 std::cout << container_id << std::endl;
-                */
+                
             }
         }
     }
@@ -51,12 +55,12 @@ std::string get_container_id()
 
 int main(int argc, char* argv[])
 {
-    std::string docker_id = get_container_id(); 
+    std::string docker_id = get_container_id(argv[1]); 
 
     if (!docker_id.empty())
     {
         std::cout << "In a container, ID: " 
-                  << get_container_id() << std::endl;
+                  << docker_id << std::endl;
     }
     else
     {
