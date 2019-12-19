@@ -2,7 +2,7 @@
 #include <fstream> 
 #include <regex> 
 
-std::string get_container_id(std::string filename)
+std::string get_container_id1(std::string filename)
 {
     std::string container_id {""};  
 
@@ -41,6 +41,57 @@ std::string get_container_id(std::string filename)
                 std::cout << "In a container. " << std::endl; 
                 std::cout << docker_pos << std::endl; 
                 std::cout << container_id << std::endl;
+                
+            }
+        }
+    }
+
+    cgroup_file.clear();
+    cgroup_file.close();
+
+    return container_id; 
+}
+
+
+std::string get_container_id(std::string filename)
+{
+    std::string container_id {""};  
+
+    std::ifstream cgroup_file; 
+    //std::string cgroup_file_name = "/proc/1/cgroup";
+    std::string cgroup_file_name = filename;
+
+    cgroup_file.open(cgroup_file_name); 
+    if (!cgroup_file.is_open())
+    {
+        std::cout << "Error opening file: " 
+                  << cgroup_file_name << std::endl; 
+        return container_id;
+    }
+
+    std::string cgroup_line1 {"1:name=systemd:/"}; 
+
+    std::string line;
+    while (std::getline(cgroup_file, line))
+    {
+        
+        if (line.substr(0, 16) == cgroup_line1)
+        {
+            std::string suffix = line.substr(16);  
+            std::cout << suffix << std::endl; 
+            
+            auto docker_pos = suffix.find("docker");
+            std::cout << "suffix length: " << suffix.length() 
+                        << " docker_pos: " << docker_pos << std::endl; 
+
+            if ( /*suffix.length() > docker_pos+70 && \*/
+                docker_pos <= suffix.length())
+            {
+                container_id = suffix.substr(docker_pos+7, 64);
+                
+                std::cout << "In a container. " << std::endl; 
+                std::cout << "Docker ps: " << docker_pos << std::endl; 
+                std::cout << "Docker ID: " << container_id << std::endl;
                 
             }
         }
