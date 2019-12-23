@@ -7,7 +7,7 @@ set -e
 
 ROOT_DIR=$(cd `dirname $0`/..; pwd)
 DEV_DIR=$ROOT_DIR/dev
-SRC_ROOT=/opt/ws_build
+SRC_ROOT=/opt/cv_build
 
 if [ ! $1 ]
 then
@@ -51,7 +51,7 @@ docker run -idt \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
     --name $1 \
     --env DEV=true \
-    --env DISPLAY=:0.0 \
+    --env DISPLAY=$DISPLAY \
     --device /dev/nvidia0:/dev/nvidia0:mrw \
     --device /dev/nvidiactl:/dev/nvidiactl:mrw \
     --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \

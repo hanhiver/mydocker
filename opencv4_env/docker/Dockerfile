@@ -6,7 +6,8 @@ RUN echo "/usr/local/nvidia/lib" >> /etc/ld.so.conf.d/nvidia.conf && \
     echo "/usr/local/nvidia/lib64" >> /etc/ld.so.conf.d/nvidia.conf
 
 ENV PATH /usr/local/nvidia/bin:/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV LD_LIBRARY_PATH /usr/local/lib:/usr/local/nvidia/lib:/usr/local/nvidia/lib64
+ENV PKG_CONFIG_PATH /usr/local/lib/pkgconfig
 
 # install dependency
 RUN apt-get update && \
@@ -50,6 +51,7 @@ RUN apt-get update && \
     ethtool \
     mtr \
     iproute2 \
+    x11-apps \
     iftop && \
     rm -rf /var/lib/apt/lists/*
 

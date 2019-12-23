@@ -1,5 +1,5 @@
 APPS=surf.out surf_gpu.out
-ARGS=$(shell pkg-config --cflags --libs opencv)
+ARGS=$(shell pkg-config --cflags --libs opencv4)
 
 all: $(APPS)
 
