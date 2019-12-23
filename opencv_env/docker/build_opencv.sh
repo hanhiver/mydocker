@@ -102,6 +102,6 @@ cmake \
 ../ 
 
 rm -rf ../opencv_contrib/modules/cnn_3dobj
-make -j32
+make -j16
 make install
 cd ../..
