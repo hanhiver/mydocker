@@ -46,6 +46,7 @@ fi
 # TODO: take care of GPU resource and volume injection.
 docker run -idt \
     --net=host \
+    -v /home/dhan/myprog/c_cpp/mycpp11/libs/opencv4:/opt/opencv4:rw,z \
     -v $ROOT_DIR:$SRC_ROOT:rw,z \
     -v /etc/localtime:/etc/localtime:ro \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
