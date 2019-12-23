@@ -1,7 +1,7 @@
 # Customized ignore files
 nvidia-driver/
 tmp/
-opencv.tar.gz
+*.tar.gz
 
 # Prerequisites
 *.d
