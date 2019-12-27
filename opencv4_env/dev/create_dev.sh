@@ -47,6 +47,7 @@ fi
 docker run -idt \
     --net=host \
     -v /home/dhan/myprog/c_cpp/mycpp11/libs/opencv4:/opt/opencv4:rw,z \
+    -v /home/dhan:/home/dhan:rw,z \
     -v $ROOT_DIR:$SRC_ROOT:rw,z \
     -v /etc/localtime:/etc/localtime:ro \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
@@ -58,4 +59,5 @@ docker run -idt \
     --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     -v $GPU_DRIVER_PATH:/usr/local/nvidia:ro,z \
     $IMAGE_NAME:$IMAGE_TAG \
+    -w $SRC_ROOT \
     /bin/bash
