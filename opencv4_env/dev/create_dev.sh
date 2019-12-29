@@ -59,5 +59,4 @@ docker run -idt \
     --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     -v $GPU_DRIVER_PATH:/usr/local/nvidia:ro,z \
     $IMAGE_NAME:$IMAGE_TAG \
-    -w $SRC_ROOT \
     /bin/bash
