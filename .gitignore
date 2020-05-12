@@ -1,4 +1,5 @@
 # Customized ignore files
+opencv4_env_no_gpu/
 nvidia-driver/
 tmp/
 *.tar.gz
