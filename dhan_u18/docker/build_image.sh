@@ -5,7 +5,7 @@ DIR=$(cd `dirname $0`; pwd)
 CPU_ARCH=$(uname -m)
 
 if [ $CPU_ARCH == "x86_64" ]; then
-    image_release_name=opencv4_build_env
+    image_release_name=dhan_u18
     dockerfile=Dockerfile
 else
     echo "Unsupported CPU architecture: $CPU_ARCH"

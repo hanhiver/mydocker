@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-cudnn7-devel-ubuntu18.04
+FROM nvidia/cuda:10.1-cudnn7-devel-ubuntu18.04
 MAINTAINER Dong HAN
 
 # setup GPU driver library env, needs only for CUDA image >= 10.0
@@ -74,10 +74,13 @@ ADD opencv_clean_2019.12.22.tar.gz /tmp
 ADD build_opencv.sh /tmp/build_opencv.sh
 
 RUN cd /tmp/opencv && \
-    cp /tmp/build_opencv.sh ./ && \
-    ./build_opencv.sh 
+    cp /tmp/build_opencv.sh
 
-RUN rm -rf /tmp/opencv/opencv
+# 暂时只拷贝不运行。
+#    cp /tmp/build_opencv.sh ./ && \
+#    ./build_opencv.sh 
+
+#RUN rm -rf /tmp/opencv/opencv
 
 ADD start_app.sh /start_app.sh
 
