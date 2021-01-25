@@ -74,10 +74,11 @@ ADD opencv_clean_2019.12.22.tar.gz /tmp
 ADD build_opencv.sh /tmp/build_opencv.sh
 
 RUN cd /tmp/opencv && \
-    cp /tmp/build_opencv.sh ./ && \
-    ./build_opencv.sh 
+    cp /tmp/build_opencv.sh . 
+#    cp /tmp/build_opencv.sh ./ && \
+#    ./build_opencv.sh 
 
-RUN rm -rf /tmp/opencv/opencv
+#RUN rm -rf /tmp/opencv/opencv
 
 ADD start_app.sh /start_app.sh
 

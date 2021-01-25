@@ -45,16 +45,20 @@ fi
 # create docker container as development environment.
 # TODO: take care of GPU resource and volume injection.
 docker run -idt \
-	-u hd275562 \
+	-h gcc10 \
+	-v /data/vdb:/data/vdb:rw,z \
     -v /home/hd275562:/home/hd275562:rw,z \
     -v $ROOT_DIR:$SRC_ROOT:rw,z \
     -v /etc/localtime:/etc/localtime:ro \
     -v /tmp/.X11-unix:/tmp/.X11-unix \
-	-p 5001:22 \
-    --name $1 \
+	-p 5003:22 \
+    --name gcc10 \
     --env DEV=true \
     --env DISPLAY=$DISPLAY \
     --device /dev/nvidia0:/dev/nvidia0:mrw \
+    --device /dev/nvidia1:/dev/nvidia1:mrw \
+    --device /dev/nvidia2:/dev/nvidia2:mrw \
+    --device /dev/nvidia3:/dev/nvidia3:mrw \
     --device /dev/nvidiactl:/dev/nvidiactl:mrw \
     --cap-add=SYS_PTRACE --security-opt seccomp=unconfined \
     -v $GPU_DRIVER_PATH:/usr/local/nvidia:ro,z \
